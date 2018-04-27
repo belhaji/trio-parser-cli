@@ -1,0 +1,302 @@
+//
+// Copyright (c) 2015, Project-Haystack
+// Licensed under the Academic Free License version 3.0
+//
+// History:
+//   26 May 10  Brian Frank  Creation (split from std)
+//
+
+--------------------------------------------------------------------------
+tag: ac
+kind: Marker
+usedWith: equip, point
+alsoSee: dc
+doc:
+  Indicates an alternating current (AC) electrical quantity or device.
+--------------------------------------------------------------------------
+tag: active
+kind: Marker
+usedWith: point, power
+alsoSee: apparent, reactive
+doc:
+  Applied to an electrical `power` `point` to indicate active power
+  or real power, typically measured in "kW".
+--------------------------------------------------------------------------
+tag: angle
+kind: Marker
+usedWith: point, volt, current
+alsoSee: mag, imbalance, thd
+doc:
+  Indicates an angle measurement. In electrical power systems,
+  models an `ac` `volt` or `current` phase angle measured in "deg".
+  Not applicable to `dc` electrical measurements.
+--------------------------------------------------------------------------
+tag: apparent
+kind: Marker
+usedWith: point, power, temp
+alsoSee: active, reactive
+doc:
+  Applied to an electrical `power` `point` to indicate apparent power,
+  typically measured in "kVA". Not applicable to `dc` electrical
+  measurements.
+
+  Used with `temp` to define the perceived temperature which takes
+  into account wind chill and heat index.
+--------------------------------------------------------------------------
+tag: avg
+kind: Marker
+usedWith: point
+alsoSee: phase
+doc:
+  Indicates an average quantity.  Used with `current`, `volt`, or `pf`
+  in electrical three-phase systems to indicate the average of the
+  individual `phase` measurements.
+--------------------------------------------------------------------------
+tag: current
+kind: Marker
+usedWith: point, mag, angle, imbalance, thd
+doc:
+  Models a `point` associated with electrical current; should
+  be paired with one of the following tags:
+   - `mag`: current magnitude, typically measured in "A"
+   - `angle`:  AC current phase angle, typically measured in "deg"
+   - `imbalance`: phase current imbalance measured in "%"
+   - `thd`: total harmonic current distortion measured in "%"
+
+  If not paired with one of the above, then `mag` is assumed.
+--------------------------------------------------------------------------
+tag: dc
+kind: Marker
+usedWith: equip, point
+alsoSee: ac
+doc:
+  Indicates a direct current (DC) electrical quantity or device.
+--------------------------------------------------------------------------
+tag: elecMeterLoad
+kind: Ref
+usedWith: point, equip
+docInclude: Energy#loads
+doc:
+  Equip or point which consumes energy as electrial load. Value should
+  reference the `meter` it is associated with.
+--------------------------------------------------------------------------
+tag: elecMeterRef
+kind: Ref
+usedWith: equip, elecPanel
+doc:
+  Associates a piece of equipment with an `elec` `meter`.
+--------------------------------------------------------------------------
+tag: energy
+kind: Marker
+usedWith: point, unit
+alsoSee: power
+doc:
+  Applied to `point` entities which measure energy consumption. For
+  electrical energy, `net` energy is assumed unless qualified with the
+  `import` or `export` tags.  Typical units:
+    - Electric meters: "kWh"
+    - Thermal meters: "BTU"
+    - Gas meters: "m³_gas"
+    - Chillers: "tonrefh"
+--------------------------------------------------------------------------
+tag: export
+kind: Marker
+usedWith: point, power, energy
+alsoSee: import, net
+doc:
+  Models the `power` or `energy` exported to the electric grid.
+  Export measurements are unidirectional. They report:
+    - Positive for power or energy flowing out to the grid
+    - Zero for power or energy flowing in from the grid
+    - Zero if no power or energy is flowing
+--------------------------------------------------------------------------
+tag: flow
+kind: Marker
+usedWith: point, unit
+alsoSee: volume
+doc:
+  Marker tag on a `point` which measures rate of volume currently flowing
+  through a flow meter, duct, or pipe .
+    - Air flow: "cfm" or "L/s"
+    - Gas/water flow: "gal/min" or "m³/s"
+--------------------------------------------------------------------------
+tag: gasMeterLoad
+kind: Ref
+usedWith: point, equip
+docInclude: Energy#loads
+doc:
+  Equip or point which consumes fuel gas as load. Value should
+  reference the `meter` it is associated with.
+--------------------------------------------------------------------------
+tag: imbalance
+kind: Marker
+usedWith: point, volt, current
+alsoSee: angle, mag, thd
+doc:
+  In electrical power systems, models an `ac` `volt` or `current` phase
+  imbalance measured in "%".  Not applicable to `dc` electrical measurements.
+--------------------------------------------------------------------------
+tag: import
+kind: Marker
+usedWith: point, power, energy
+alsoSee: export, net
+doc:
+  Models the `power` or `energy` imported from the electric grid.
+  Import measurements are unidirectional. They report:
+    - Positive for power or energy flowing in from the grid
+    - Zero for power or energy flowing out to the grid
+    - Zero if no power or energy is flowing
+--------------------------------------------------------------------------
+tag: mag
+kind: Marker
+usedWith: point, volt, current
+alsoSee: angle, imbalance, thd
+doc:
+  Models the magnitude of a `volt` or `current` point.
+--------------------------------------------------------------------------
+tag: meter
+kind: Marker
+usedWith: equip, siteMeter, submeterOf
+docInclude: Energy#meters
+doc:
+  Equip which meters usage of `elec` energy, thermal energy, `gas`, `water`
+  or `steam`.
+--------------------------------------------------------------------------
+tag: net
+kind: Marker
+usedWith: point, power, energy
+alsoSee: export, import
+doc:
+  Models the net `power` or `energy` exchange with the electric grid
+  following the load convention: `import` minus `export`.
+  - Positive quanities indicate net import (energy flowing in from the grid)
+  - Negative quantities indicate net export (energy flowing out to the grid)
+--------------------------------------------------------------------------
+tag: pf
+kind: Marker
+usedWith: point
+doc:
+  Power factor of an `elec` `meter` as a unitless number between 0.0
+  and 1.0 which represents the ratio of `active` power to `apparent`
+  power.  Power factor is unitless, but uses the artificial Haystack
+  unit "pf" to differentiate it from other unitless quantities. Not
+  applicable to `dc` electrical measurements.
+--------------------------------------------------------------------------
+tag: phase
+kind: Str
+usedWith: volt, current, pf
+doc:
+  Association of one or more phases in a three-phase electrical system.
+  This string must be one of the following constant values:
+    - "A"
+    - "B"
+    - "C"
+    - "AB"
+    - "BC"
+    - "CA"
+    - "N"
+
+  The values "A", "B", and "C" indicate line-to-neutral measurements;
+  "AB", "BC", and "CA" indicate line-to-line measurements.  For `current`
+  only, "N" indicates measured neutral current.
+
+  For `volt`, `current`, and `pf`, ommision of the phase tag indicates the
+  `avg` across all three phases.  For `power` and `energy`, omission of the
+  phase tag indicates the `total` across all three phases.
+--------------------------------------------------------------------------
+tag: power
+kind: Marker
+usedWith: point, unit
+alsoSee: energy
+doc:
+  Applied to `point` entities which measure energy consumed per unit time.
+  For electrical power, `active` power is assumed unless qualified
+  with the `reactive` or `apparent` tags and `net` power is assumed unless
+  qualified with the `import` or `export` tags.
+
+  Typical units:
+    - Electric meters: "kW"
+    - Thermal meters: "BTU/h"
+    - Chillers: "tonref" or "kW" refrigeration
+--------------------------------------------------------------------------
+tag: reactive
+kind: Marker
+usedWith: point, power
+alsoSee: active, apparent
+doc:
+  Applied to an electrical `power` `point` to indicate reactive power or
+  imaginary power, typically measured in "kVAR". Not applicable to `dc`
+  electrical measurements.
+--------------------------------------------------------------------------
+tag: siteMeter
+kind: Marker
+usedWith: meter
+doc:
+  Applied to a `meter` which exclusively meters a single site identified
+  by `siteRef`.  As a general rule, there must be a siteMeter for each
+  unique site to perform site benchmarking.  This marker may also be used
+  on meter points such as `power` as a convenience.
+--------------------------------------------------------------------------
+tag: steamMeterLoad
+kind: Ref
+usedWith: point, equip
+docInclude: Energy#loads
+doc:
+  Equip or point which consumes steam as load. Value should
+  reference the `meter` it is associated with.
+--------------------------------------------------------------------------
+tag: submeterOf
+kind: Ref
+usedWith: meter
+doc:
+  This tag is applied to submeters and references the parent `meter`.
+--------------------------------------------------------------------------
+tag: total
+kind: Marker
+usedWith: point
+alsoSee: phase
+doc:
+  Indicates a total quantity.  Used with `power` or `energy` in
+  electrical three-phase systems to indicate the sum of the
+  individual `phase` measurements.
+--------------------------------------------------------------------------
+tag: thd
+kind: Marker
+usedWith: point, volt, current
+alsoSee: angle, imbalance, mag
+doc:
+  In electrical power systems, models the total harmonic distortion of
+  a `volt` or `current` `point` measured in "%".  Not applicable to `dc`
+  electrical measurements.
+--------------------------------------------------------------------------
+tag: volt
+kind: Marker
+usedWith: point, mag, angle, imbalance, thd
+doc:
+  Models a `point` associated with electrical voltage; should
+  be paired with one of the following tags:
+   - `mag`: voltage magnitude, typically measured in "V"
+   - `angle`:  AC voltage phase angle, typically measured in "deg"
+   - `imbalance`: phase voltage imbalance measured in "%"
+   - `thd`: total harmonic voltage distortion measured in "%"
+
+  If not paired with one of the above, then `mag` is assumed.
+--------------------------------------------------------------------------
+tag: volume
+kind: Marker
+usedWith: point, unit
+alsoSee: flow
+doc:
+  Marker tag on a `point` which measures total volume which has
+  flowed through a meter, duct, or pipe.  Volume units include "gal",
+  "m³", and "ft³".
+--------------------------------------------------------------------------
+tag: waterMeterLoad
+kind: Ref
+usedWith: point, equip
+docInclude: Energy#loads
+doc:
+  Equip or point which consumes water as load. Value should
+  reference the `meter` it is associated with.
+--------------------------------------------------------------------------
+

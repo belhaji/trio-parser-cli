@@ -1,0 +1,20 @@
+{
+  "name": "trioparser",
+  "version": "1.0.0",
+  "description": "Trio format parser ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adil Belhaji",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^5.1.1"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^0.13.1",
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.4",
+    "firebase-admin": "^5.12.0"
+  }
+}
