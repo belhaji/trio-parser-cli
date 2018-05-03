@@ -114,21 +114,21 @@ fs.readdir(tagsDir, (err, files) => {
       };
 
       const tagRef = db.collection("tag").doc(e.tag);
-      saveDoc(tagRef, tag)(err => {
-        console.log("Error getting document", err);
-      });
+      tagRef
+        .get()
+        .then(doc => {
+          if (!doc.exists) {
+            tagRef.set(tag);
+          } else {
+            tagRef.update(tag);
+          }
+          if (verbose) {
+            console.log("File " + file + " saved to filestore! ");
+          }
+        })
+        .catch(err => {
+          console.log("Error getting document", err);
+        });
     });
-    if (verbose) {
-      console.log("File " + file + " saved to filestore! ");
-    }
   }
 });
-function saveDoc(tagRef, tag) {
-  return tagRef.get().then(doc => {
-    if (!doc.exists) {
-      tagRef.set(tag);
-    } else {
-      tagRef.update(tag);
-    }
-  }).catch;
-}
