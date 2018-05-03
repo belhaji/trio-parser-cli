@@ -47,7 +47,7 @@ const optionDefinitions = [
 ];
 
 const usage = cmdUsage(usageDef);
-var options;
+let options;
 try {
   options = cmdArgs(optionDefinitions);
 } catch (error) {
@@ -93,7 +93,7 @@ fs.readdir(tagsDir, (err, files) => {
   }
   files.forEach(file => {
     const indexOfExtention = file.lastIndexOf(".");
-    if (indexOfExtention == -1) {
+    if (indexOfExtention === -1) {
       filename = file;
     } else {
       filename = file.slice(0, indexOfExtention);
@@ -105,14 +105,15 @@ fs.readdir(tagsDir, (err, files) => {
       .parse()
       .then(data => {
         data.forEach(e => {
-          tag = {
+          let tag = {
             category: filename,
             dictionary: dictionary,
-            kind: e.kind,
-            usedWith: e.usedWith,
-            alsoSee: e.alsoSee,
-            description: e.doc
+            kind: e.kind ? e.kind : null,
+            usedWith: e.usedWith ? e.usedWith : null,
+            alsoSee: e.alsoSee ? e.alsoSee : null,
+            description: e.doc ? e.doc : null
           };
+
           const tagRef = db.collection("tag").doc(e.tag);
           tagRef
             .get()

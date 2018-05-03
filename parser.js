@@ -5,24 +5,23 @@ module.exports = (filename, hasHeader = true, sep = "-") => {
   this.hasHeader = hasHeader;
   this.sep = sep;
   const data = [];
-  var isFirstElement = true;
+  let isFirstElement = true;
   const parseData = filename => {
-    var element = {};
-    var currentField = null;
-    var lines = fs
+    let element = {};
+    let currentField = null;
+    const lines = fs
       .readFileSync(filename)
       .toString()
       .split(/\r?\n/);
-    for (var i in lines) {
-      if (lines[i].startsWith("//") || lines[i] == "") {
-        continue;
+    for (const i in lines) {
+      if (lines[i].startsWith("//") || lines[i] === "") {
       } else if (lines[i].startsWith(this.sep)) {
         if (this.hasHeader && isFirstElement) {
           isFirstElement = false;
           continue;
         }
         const kindElement = element["kind"];
-        if (kindElement != "Ref") {
+        if (kindElement !== "Ref") {
           const docElement = element["doc"];
           if (docElement) {
             element["doc"] = docElement
@@ -35,7 +34,7 @@ module.exports = (filename, hasHeader = true, sep = "-") => {
         element = {};
       } else if (lines[i].startsWith("  ") || lines[i].startsWith("\t")) {
         element[currentField] += lines[i];
-      } else if (lines[i].indexOf(":") != -1) {
+      } else if (lines[i].indexOf(":") !== -1) {
         const fields = lines[i].split(":");
         const key = fields[0].trim();
         const value = fields[1].trim();
