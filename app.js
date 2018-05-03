@@ -93,6 +93,7 @@ fs.readdir(tagsDir, (err, files) => {
   }
   files.forEach(file => {
     const indexOfExtention = file.lastIndexOf(".");
+    let filename;
     if (indexOfExtention === -1) {
       filename = file;
     } else {
