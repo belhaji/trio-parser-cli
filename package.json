@@ -9,6 +9,8 @@
   "author": "Adil Belhaji",
   "license": "ISC",
   "devDependencies": {
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-promise": "^3.7.0",
     "mocha": "^5.1.1"
   },
   "dependencies": {

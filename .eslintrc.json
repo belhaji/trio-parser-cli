@@ -1,0 +1,54 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:promise/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier",
+    "promise"
+  ],
+  "rules": {
+    "no-var": "error",
+    "curly": "error",
+    "radix": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
+    "valid-jsdoc": [
+      "warn",
+      {
+        "requireReturn": false,
+        "prefer": {
+          "return": "returns"
+        }
+      }
+    ],
+    "promise/always-return": "off",
+    "promise/avoid-new": "off",
+    "promise/catch-or-return": [
+      "error",
+      {
+        "terminationMethod": [
+          "catch",
+          "asCallback",
+          "finally"
+        ]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 100,
+        "jsxBracketSameLine": true
+      }
+    ]
+  },
+  "env": {
+    "es6": true,
+    "browser": true
+  }
+}
