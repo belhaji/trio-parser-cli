@@ -14,8 +14,7 @@ module.exports = (filename, hasHeader = true, sep = "-") => {
       .toString()
       .split(/\r?\n/);
     for (const line of lines) {
-      if (line.startsWith("//") || line === "") {
-      } else if (line.startsWith(this.sep)) {
+      if (line.startsWith(this.sep)) {
         if (this.hasHeader && isFirstElement) {
           isFirstElement = false;
           continue;

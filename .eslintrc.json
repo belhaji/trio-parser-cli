@@ -1,13 +1,6 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:promise/recommended",
-    "prettier"
-  ],
-  "plugins": [
-    "prettier",
-    "promise"
-  ],
+  "extends": ["eslint:recommended", "plugin:promise/recommended", "prettier"],
+  "plugins": ["prettier", "promise"],
   "rules": {
     "no-var": "error",
     "curly": "error",
@@ -32,11 +25,7 @@
     "promise/catch-or-return": [
       "error",
       {
-        "terminationMethod": [
-          "catch",
-          "asCallback",
-          "finally"
-        ]
+        "terminationMethod": ["catch", "asCallback", "finally"]
       }
     ],
     "prettier/prettier": [
