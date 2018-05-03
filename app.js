@@ -91,7 +91,7 @@ fs.readdir(tagsDir, (err, files) => {
     console.log(err.message);
     return;
   }
-  files.forEach(file => {
+  for (const file of files) {
     const indexOfExtention = file.lastIndexOf(".");
     let filename;
     if (indexOfExtention === -1) {
@@ -102,37 +102,33 @@ fs.readdir(tagsDir, (err, files) => {
     if (verbose) {
       console.log("Parsing file : " + file);
     }
-    parser(tagsDir + "/" + file)
-      .parse()
-      .then(data => {
-        data.forEach(e => {
-          let tag = {
-            category: filename,
-            dictionary: dictionary,
-            kind: e.kind ? e.kind : null,
-            usedWith: e.usedWith ? e.usedWith : null,
-            alsoSee: e.alsoSee ? e.alsoSee : null,
-            description: e.doc ? e.doc : null
-          };
+    const data = parser(tagsDir + "/" + file).parse();
+    data.forEach(e => {
+      let tag = {
+        category: filename,
+        dictionary: dictionary,
+        kind: e.kind ? e.kind : null,
+        usedWith: e.usedWith ? e.usedWith : null,
+        alsoSee: e.alsoSee ? e.alsoSee : null,
+        description: e.doc ? e.doc : null
+      };
 
-          const tagRef = db.collection("tag").doc(e.tag);
-          tagRef
-            .get()
-            .then(doc => {
-              if (!doc.exists) {
-                tagRef.set(tag);
-              } else {
-                tagRef.update(tag);
-              }
-            })
-            .catch(err => {
-              console.log("Error getting document", err);
-            });
-        });
-      })
-      .catch(err => console.log(err));
+      const tagRef = db.collection("tag").doc(e.tag);
+      saveDoc(tagRef, tag)(err => {
+        console.log("Error getting document", err);
+      });
+    });
     if (verbose) {
       console.log("File " + file + " saved to filestore! ");
     }
-  });
+  }
 });
+function saveDoc(tagRef, tag) {
+  return tagRef.get().then(doc => {
+    if (!doc.exists) {
+      tagRef.set(tag);
+    } else {
+      tagRef.update(tag);
+    }
+  }).catch;
+}

@@ -44,13 +44,7 @@ module.exports = (filename, hasHeader = true, sep = "-") => {
     return data;
   };
   const parse = () => {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(parseData(this.filename));
-      } catch (error) {
-        reject(error);
-      }
-    });
+    return parseData(this.filename);
   };
   return { parse };
 };
